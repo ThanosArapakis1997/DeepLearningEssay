@@ -1,15 +1,23 @@
 import torch.nn as nn
 
 class Encoder(nn.Module):
-    def __init__(self, input_size, embedding_dim, hidden_size, dropout):
+    # def __init__(self, input_size, embedding_dim, hidden_size, dropout):
+    #     super(Encoder, self).__init__()
+    #     self.hidden_size = hidden_size
+        
+    #     # Embedding layer to convert word indices into dense vectors
+    #     self.embedding = nn.Embedding(input_size, embedding_dim)
+        
+    #     # Bidirectional GRU
+    #     self.gru = nn.GRU(embedding_dim, hidden_size, bidirectional=True)
+    
+    def __init__(self, input_size, hidden_size, dropout_p=0.1):
         super(Encoder, self).__init__()
         self.hidden_size = hidden_size
-        
-        # Embedding layer to convert word indices into dense vectors
-        self.embedding = nn.Embedding(input_size, embedding_dim)
-        
-        # Bidirectional GRU
-        self.gru = nn.GRU(embedding_dim, hidden_size, bidirectional=True)
+    
+        self.embedding = nn.Embedding(input_size, hidden_size)
+        self.gru = nn.GRU(hidden_size, hidden_size, batch_first=True)
+        self.dropout = nn.Dropout(dropout_p)
         
     def forward(self, src):
         # src = [src_len, batch_size]

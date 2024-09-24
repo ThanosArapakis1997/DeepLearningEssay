@@ -1,11 +1,16 @@
 import torch
 import torch.nn as nn
-import Attention
 import torch.nn.functional as F
+
+from Attention import Attention
 
 SOS_token = 0
 EOS_token = 1
 MAX_LENGTH= 10
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
 class Decoder(nn.Module):
     def __init__(self, hidden_size, output_size, dropout_p=0.1):
         super(Decoder, self).__init__()
